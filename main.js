@@ -4,15 +4,19 @@ const GIFS = [
     {
         file: 'party_hard.gif',
         shortcut: 'Control+P',
-        displayTime: 2000
+        //displayTime: 2000
     },
     {
         file: 'thanks.gif',
         shortcut: 'Control+X'
+    },
+    {
+        file: 'hello.webp',
+        shortcut: 'Control+O'
     }
 ]
 
-const DEFAULT_DISPLAY_TIME = 1000
+const DEFAULT_DISPLAY_TIME = 2000
 
 let window = null
 
@@ -29,11 +33,12 @@ app.whenReady().then( () => {
     createWindow()
     GIFS.forEach(gif => {
         globalShortcut.register(gif.shortcut, async () => {
-            window.show();
             console.log(gif.file, gif.shortcut);
             await window.loadFile('gifs/' + gif.file);
-            setTimeout(() => {
+            window.show();
+            setTimeout(async () => {
                 window.minimize();
+                await window.loadFile('gifs/placeholder.svg');
             }, gif.displayTime || DEFAULT_DISPLAY_TIME);
         })
     })
