@@ -1,20 +1,43 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, globalShortcut, remote } = require('electron')
 
-function createWindow () {
-    const win = new BrowserWindow({
-        width: 550,
-        height: 309,
-        webPreferences: {
-            nodeIntegration: true
-        },
+const GIFS = [
+    {
+        file: 'party_hard.gif',
+        shortcut: 'Control+P',
+        displayTime: 2000
+    },
+    {
+        file: 'thanks.gif',
+        shortcut: 'Control+X'
+    }
+]
+
+const DEFAULT_DISPLAY_TIME = 1000
+
+let window = null
+
+function createWindow() {
+    window = new BrowserWindow({
+        width: 500,
+        height: 300,
         transparent: true,
         frame: false
     })
-
-    win.loadFile('index.html')
 }
 
-app.whenReady().then(createWindow)
+app.whenReady().then( () => {
+    createWindow()
+    GIFS.forEach(gif => {
+        globalShortcut.register(gif.shortcut, async () => {
+            window.show();
+            console.log(gif.file, gif.shortcut);
+            await window.loadFile('gifs/' + gif.file);
+            setTimeout(() => {
+                window.minimize();
+            }, gif.displayTime || DEFAULT_DISPLAY_TIME);
+        })
+    })
+})
 
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') {
@@ -22,8 +45,6 @@ app.on('window-all-closed', () => {
     }
 })
 
-app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-        createWindow()
-    }
+app.on('will-quit', () => {
+    globalShortcut.unregisterAll()
 })
