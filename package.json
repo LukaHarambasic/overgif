@@ -1,0 +1,29 @@
+{
+  "name": "overgif",
+  "version": "0.1.0",
+  "description": "GIFs as overlay per global shortcut.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LukaHarambasic/overgif.git"
+  },
+  "keywords": [
+    "giv",
+    "overlay",
+    "electron",
+    "app"
+  ],
+  "author": "Luka Harambasic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LukaHarambasic/overgif/issues"
+  },
+  "homepage": "https://github.com/LukaHarambasic/overgif#readme",
+  "devDependencies": {
+    "electron": "^12.0.1"
+  }
+}
